@@ -1,0 +1,26 @@
+{
+    "files.associations": {
+        "app.h": "c",
+        "stddef.h": "c",
+        "string.h": "c",
+        "platform.h": "c",
+        "renderer.h": "c",
+        "r_shader.h": "c",
+        "r_batch.h": "c",
+        "stb_image.h": "c",
+        "r_texture.h": "c",
+        "memory.h": "c",
+        "atlas.h": "c",
+        "game.h": "c",
+        "functional": "c",
+        "typeinfo": "c",
+        "*.def": "c",
+        "format": "c",
+        "clock.h": "c",
+        "glfw3.h": "c",
+        "gl.h": "c",
+        "chrono": "c",
+        "variant": "c"
+    },
+    "C_Cpp.default.compilerPath": "C:/dev/programs/msys64/mingw64/bin/clang.exe"
+}

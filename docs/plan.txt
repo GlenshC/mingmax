@@ -1,0 +1,207 @@
+2d game engine (soon add 3d and isometric)
+https://chatgpt.com/c/685684dc-7654-800d-97db-eb61e67735dc
+
+features:
+	submit and batch render (r_poll, r_draw2d, r_flush)
+	texture atlas (one img multiple textures)
+	custom shaders
+	
+tools:
+	cmake
+	glfw, glad, opengl core
+	c/c++
+	
+design:
+	Data Oriented Design
+	Modularized (r_ for renderer... etc)
+	
+	
+file structure:
+	/engine-root
+	├── CMakeLists.txt
+	├── include/                        # Public headers
+	│   ├── engine/                     # Engine-wide interfaces
+	│   ├── renderer/                   # Rendering API
+	│   ├── input/                      # Input API
+	│   ├── math/                       # Math types/utilities
+	│   ├── assets/                     # Texture, font, and shader loading
+	│   ├── util/                       # Logging, memory, string, etc.
+	│   └── ...                 
+	├── src/
+	│   ├── core/                       # Engine core systems
+	│   │   ├── app.c/h                 # Game loop and engine startup
+	│   │   ├── platform.c/h            # GLFW, timing, OpenGL context
+	│   │   └── clock.c/h               # Delta time and frame timing
+	│   │
+	│   ├── input/                      # Input system
+	│   │   └── input.c/h
+	│   │
+	│   ├── renderer/                   # Renderer backend (OpenGL)
+	│   │   ├── renderer.c/h            # Render API entry point
+	│   │   ├── r_gl.c/h                # GL state mgmt (enables, viewport, etc.)
+	│   │   ├── r_batch.c/h             # Sprite batching system
+	│   │   ├── r_texture.c/h           # Texture loading & handling
+	│   │   ├── r_camera.c/h            # 2D camera system
+	│   │   ├── r_shader.c/h            # Core shader loading/compilation
+	│   │   └── r_material.c/h          # (NEW) Material abstraction (shader + texture)
+	│   │
+	│   ├── assets/                     # General asset loading
+	│   │   ├── atlas.c/h               # Texture atlas loader
+	│   │   ├── image.c/h               # Image decoder (e.g. stb_image)
+	│   │   ├── font.c/h                # (future) Font rendering
+	│   │   └── shader_loader.c/h       # (NEW) Game-facing API for custom shaders
+	│   │
+	│   ├── math/                       # Math utilities
+	│   │   ├── vec2.c/h
+	│   │   ├── mat4.c/h
+	│   │   ├── transform.c/h
+	│   │   └── rect.c/h
+	│   │
+	│   ├── util/                       # Utility systems
+	│   │   ├── log.c/h                 # Logging and debug output
+	│   │   ├── memory.c/h              # (optional) allocators
+	│   │   ├── string.c/h
+	│   │   └── assert.h
+	│   │
+	│   └── game/                       # Game logic code
+	│       ├── main.c
+	│       ├── game.c/h                # (NEW) Game lifecycle functions
+	│       ├── entity.c/h
+	│       ├── scene.c/h
+	│       ├── player.c/h
+	│       └── world.c/h
+	├── assets/                         # Static data/assets used by engine or game
+	│   ├── textures/
+	│   ├── maps/
+	│   ├── fonts/
+	│   └── ...
+	├── shaders/                        # Engine-provided shaders
+	│   ├── sprite.vert                 # 2D sprite batching vertex shader
+	│   ├── sprite.frag                 # 2D sprite batching fragment shader
+	│   └── ...                         # Default fallback or special shaders
+	└── game_shaders/                   # (NEW) Game-defined custom shaders
+		├── fireball.vert
+		├── fireball.frag
+		└── ...                         # Game’s own shading logic
+		
+
+✅ Your Game Engine Planning Summary
+
+📁 File & Folder Structure
+
+    Modular and clean
+    Designed for scalability: 2D, batching, future 3D and isometric
+    Engine and game code clearly separated
+	
+    Supports:
+        Core systems (loop, clock, platform)
+        Input abstraction
+        Renderer backend
+        Texture batching
+        Shader management (with custom game shaders)
+        Math utilities
+        Game assets and logic
+        (Future) materials, fonts, packed assets
+
+🧱 Architecture Principles
+
+    Engine controls main loop (app_run)
+    Game plugs into lifecycle via hooks: game_init, game_update, game_render, etc.
+    GLFW handles OS abstraction, engine wraps it
+    Renderer uses texture atlas + batching for performance
+	
+    Shaders are engine-owned, game-supplied:
+        Engine handles loading, compiling, linking
+        Game can load and bind its own custom shaders
+        Custom shader files live in game_shaders/
+
+🔧 Immediate Next Modules to Build
+    ✅ app.c main loop
+    ✅ platform.c GLFW/GLAD context
+    ✅ clock.c for delta time
+    🔜 r_shader.c/h — load, compile, bind GLSL shaders
+    🔜 Default sprite shader in shaders/sprite.vert/.frag
+    🔜 Input system, batching, and texture system next
+	
+	
+	
+🚀 PHASE 1 GOAL: "Boot & Draw"
+
+    Open a window, run a loop, use OpenGL core, load a shader, and draw one triangle.
+
+✅ PHASE 1 – High-Level TODO List
+
+🧱 1. Core System
+	core/app.c/h – Engine main loop (calls game)
+	core/platform.c/h – GLFW init, GL context, swap buffers
+    core/clock.c/h – Delta time, frame timing
+
+🎮 2. Game Logic Hooks
+	game/game.c/h – Game lifecycle: init, update, render, shutdown
+    game/main.c – Calls app_run()
+
+🧠 3. Math
+	math/mat4.c/h – 4x4 matrix (projection for rendering)
+    (Optional for now) math/vec2.c/h
+
+🧪 4. Shader System
+	renderer/r_shader.c/h – Compile/link shaders, bind/use, set uniforms
+    Load shaders/sprite.vert and sprite.frag
+
+🎨 5. Renderer
+	renderer/renderer.c/h – Minimal render system
+	Setup VAO/VBO and draw a hardcoded triangle
+	Use the loaded shader
+
+🔥 Phase 1 MVP Milestone
+
+When all above are done, you should have:
+✅ A window
+✅ A running main loop
+✅ A compiled custom shader
+✅ A triangle drawn with OpenGL
+✅ Game lifecycle functions printing to console
+
+📝 Full Task Breakdown (with files)
+
+core/
+	app.c/h – loop that calls game_init, game_update, game_render, game_shutdown
+	platform.c/h – wraps GLFW, GLAD, and glClearColor/glClear
+    clock.c/h – track delta time
+
+game/
+	main.c – calls app_run()
+    game.c/h – implements game hooks (print logs for now)
+
+math/
+    mat4.c/h – create orthographic matrix for 2D
+
+renderer/
+	r_shader.c/h – load shader from .vert and .frag, compile, link, bind, destroy
+    renderer.c/h – initialize OpenGL state, set up VAO/VBO, render triangle
+	
+shaders/
+	sprite.vert – basic pass-through vertex shader
+	sprite.frag – solid color output fragment shader
+
+🛠 Recommended Build Order
+
+    ✅ platform.c/h + app.c/h — get a window opening
+    ✅ clock.c/h — delta time working
+    ✅ game.c/h + main.c — hook game lifecycle
+    ✅ r_shader.c/h — compile shaders and log GLSL errors
+    ✅ mat4.c/h — make a projection matrix
+    ✅ renderer.c/h — draw a triangle with loaded shader
+
+⚠️ Notes
+
+    Don’t worry about batching yet — just get a triangle rendered
+    Keep code clean, log errors (log_error(...))
+    Stick to OpenGL 3.3 Core (via glfwWindowHint)
+    Use CMake from the start to build modularly
+
+✅ Let’s Start With:
+
+    platform.c/h + app.c/h → goal: open a window and clear screen
+	
+Ready to begin writing the first code files? I’ll give you the actual code for step 1.
