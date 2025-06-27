@@ -80,58 +80,7 @@ target_include_directories(glad PUBLIC
     vendor/glad/include
 )
 
-add_library(cglm STATIC
-    vendor/cglm/src/euler.c
-    vendor/cglm/src/affine.c
-    vendor/cglm/src/io.c
-    vendor/cglm/src/quat.c
-    vendor/cglm/src/cam.c
-    vendor/cglm/src/vec2.c
-    vendor/cglm/src/ivec2.c
-    vendor/cglm/src/vec3.c
-    vendor/cglm/src/ivec3.c
-    vendor/cglm/src/vec4.c
-    vendor/cglm/src/ivec4.c
-    vendor/cglm/src/mat2.c
-    vendor/cglm/src/mat2x3.c
-    vendor/cglm/src/mat2x4.c
-    vendor/cglm/src/mat3.c
-    vendor/cglm/src/mat3x2.c
-    vendor/cglm/src/mat3x4.c
-    vendor/cglm/src/mat4.c
-    vendor/cglm/src/mat4x2.c
-    vendor/cglm/src/mat4x3.c
-    vendor/cglm/src/plane.c
-    vendor/cglm/src/noise.c
-    vendor/cglm/src/frustum.c
-    vendor/cglm/src/box.c
-    vendor/cglm/src/aabb2d.c
-    vendor/cglm/src/project.c
-    vendor/cglm/src/sphere.c
-    vendor/cglm/src/ease.c
-    vendor/cglm/src/curve.c
-    vendor/cglm/src/bezier.c
-    vendor/cglm/src/ray.c
-    vendor/cglm/src/affine2d.c
-    vendor/cglm/src/clipspace/ortho_lh_no.c
-    vendor/cglm/src/clipspace/ortho_lh_zo.c
-    vendor/cglm/src/clipspace/ortho_rh_no.c
-    vendor/cglm/src/clipspace/ortho_rh_zo.c
-    vendor/cglm/src/clipspace/persp_lh_no.c
-    vendor/cglm/src/clipspace/persp_lh_zo.c
-    vendor/cglm/src/clipspace/persp_rh_no.c
-    vendor/cglm/src/clipspace/persp_rh_zo.c
-    vendor/cglm/src/clipspace/view_lh_no.c
-    vendor/cglm/src/clipspace/view_lh_zo.c
-    vendor/cglm/src/clipspace/view_rh_no.c
-    vendor/cglm/src/clipspace/view_rh_zo.c
-    vendor/cglm/src/clipspace/project_no.c
-    vendor/cglm/src/clipspace/project_zo.c
-)
-
-target_include_directories(cglm PUBLIC
-    vendor/cglm/include
-)
+add_subdirectory(vendor/cglm)
 
 # ===============================
 # 🚀 Your executable

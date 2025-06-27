@@ -1,7 +1,7 @@
 #pragma once
 
 #include "core/init/init_clock.h"
-
+#include <stdint.h>
 typedef struct ClockStateTime 
 {
     double time_last;       // Last frame timestamp
@@ -10,6 +10,7 @@ typedef struct ClockStateTime
     double time_start;
     double tick_accumulator;
     float  delta_time;      // Time between last two frames (in seconds)
+    uint16_t current_tick;
 } ClockStateTime; 
 
 typedef struct ClockStateFPS 
@@ -48,4 +49,6 @@ int   clock_get_target_fps(void);
 // Optionally wait to maintain target frame rate
 void  clock_wait_for_frame_end(void);
 
-int clock_tick(void);
+void clock_tick(void);
+
+double clock_get_raw_time(void);

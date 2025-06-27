@@ -1,0 +1,22 @@
+# Build files
+build/
+CMakeFiles/
+CMakeCache.txt
+*.o
+*.obj
+*.exe
+*.out
+*.so
+*.dylib
+*.log
+
+# IDE configs
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Misc
+*.DS_Store
+
+compile_commands.json
+.cache/

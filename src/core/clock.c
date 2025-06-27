@@ -16,7 +16,7 @@ void clock_update(void)
 {
     c_time_state.time_last = c_time_state.time_now;
     c_time_state.time_now = platform_get_time(); 
-    c_time_state.delta_time = c_time_state.time_now - c_time_state.time_last;
+    c_time_state.delta_time = (float) (c_time_state.time_now - c_time_state.time_last);
     c_time_state.tick_accumulator += c_time_state.delta_time;
     c_time_state.elapsed_time = c_time_state.time_now - c_time_state.time_start;
 
@@ -31,10 +31,9 @@ void clock_update(void)
     }
 }
 
-int clock_tick(void)
+void clock_tick(void)
 {
-    return (c_time_state.tick_accumulator >= c_clock_init.tick_interval) ? 
-        (c_time_state.tick_accumulator -= c_clock_init.tick_interval, 1) : 0;
+    c_time_state.current_tick++;
 }
 
 // Returns delta time in seconds (time between last two frames)
@@ -47,6 +46,11 @@ float clock_get_delta_time(void)
 double clock_get_time(void)
 {
     return c_time_state.elapsed_time;
+}
+
+double clock_get_raw_time(void)
+{
+    return platform_get_time();
 }
 
 // Returns FPS (frames per second)

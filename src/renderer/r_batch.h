@@ -4,6 +4,12 @@
 #define RENDERER_MANUAL_FLUSH_UPDATE
 #define MAX_SPRITES 1000
 
+#define VBO_POSITION    0
+#define VBO_SCALE       1
+#define VBO_ROTATION    2
+#define VBO_UV_TEX      3
+#define VBO_BIT_FIELD   4
+
 typedef uint16_t Sprite_S, Sprite_A;
 // TODO pack values and bitwise unpack in gpu
 // TODO make the atlas start on the top left
@@ -13,17 +19,26 @@ typedef struct SpriteDataBits{
     flip: 1;
 } SpriteDataBits;
 
+typedef struct SpriteIndexes {
+    uint16_t        uv_index;
+    uint16_t        tex_index;
+} SpriteIndexes;
+
+typedef struct vec2_f {
+    float x;
+    float y;
+} vec2_f;
+
 typedef struct SpriteData{
-    float position[2]; // 0
-    float scale[2]; // 8
-    float rotation; // 16
-    uint16_t uv_index; // 20
-    uint16_t tex_index; // 20
-    SpriteDataBits bit_field; // 20 
+    vec2_f          position[MAX_SPRITES];
+    vec2_f          scale[MAX_SPRITES];
+    float           rotation[MAX_SPRITES]; // 16
+    SpriteIndexes   uv_tex_indexes[MAX_SPRITES]; // 20
+    SpriteDataBits  bit_field[MAX_SPRITES]; // 20 
 } SpriteData;
 
 typedef struct SpriteBuffer_S {
-    SpriteData instances[MAX_SPRITES];
+    SpriteData instances;
     Sprite_S index_to_handle[MAX_SPRITES];
     uint16_t handle_to_index[MAX_SPRITES];
     Sprite_S free_handles[MAX_SPRITES];
@@ -32,16 +47,17 @@ typedef struct SpriteBuffer_S {
 } SpriteBuffer_S;
 
 typedef struct SpriteBuffer_A {
-    SpriteData instances[MAX_SPRITES];
+    SpriteData instances;
     Sprite_A index_to_handle[MAX_SPRITES];
     uint16_t handle_to_index[MAX_SPRITES];
     uint16_t uv_index[MAX_SPRITES];
     uint16_t uv_max_offset[MAX_SPRITES];
     Sprite_A free_handles[MAX_SPRITES];
-    float frame_timer[MAX_SPRITES];
-    uint8_t frame_rate[MAX_SPRITES];
+    uint16_t tick_rate[MAX_SPRITES];
+    uint16_t last_tick[MAX_SPRITES];
     uint16_t free_count;
     uint16_t count;
+    // float frame_timer[MAX_SPRITES];
     // uint8_t 
     // uint8_t 
 } SpriteBuffer_A;

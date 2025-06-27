@@ -20,7 +20,8 @@
         "glfw3.h": "c",
         "gl.h": "c",
         "chrono": "c",
-        "variant": "c"
+        "variant": "c",
+        "init_clock.h": "c"
     },
     "C_Cpp.default.compilerPath": "C:/dev/programs/msys64/mingw64/bin/clang.exe"
 }

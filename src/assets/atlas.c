@@ -48,10 +48,10 @@ void atlas_create(TextureAtlas * atlas, const char *image_path, const int tile_w
     atlas->texture = texture2D_load(image_path, GL_RGBA, &atlas_width, &atlas_height);
     atlas->tile_count = (atlas_width/tile_width) * (atlas_height/tile_height);
 
-    atlas->tile_width = tile_width;
-    atlas->tile_height = tile_height;
-    atlas->atlas_width = atlas_width;
-    atlas->atlas_height = atlas_height;    
+    atlas->tile_width = (float)tile_width;
+    atlas->tile_height = (float)tile_height;
+    atlas->atlas_width = (float)atlas_width;
+    atlas->atlas_height = (float)atlas_height;    
 }
 
 void atlas_bind(Shader shader, TextureAtlas *atlas, const uint32_t slot)

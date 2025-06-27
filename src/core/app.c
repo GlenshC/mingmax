@@ -17,10 +17,11 @@ void app_run(const char *title, int width, int height)
         clock_update();
         // input_update();
         const double delta_time = c_time_state.delta_time;
-        while (c_time_state.tick_accumulator >= c_clock_init.tick_interval)
+        while (c_time_state.tick_accumulator >= 1.0/c_clock_init.tick_interval)
         {
-            game_update(delta_time);
-            c_time_state.tick_accumulator -= c_clock_init.tick_interval;
+            clock_tick();
+            game_update((float)delta_time);
+            c_time_state.tick_accumulator -= 1.0/c_clock_init.tick_interval;
         }
         
         // platform_clear_screen(...);
