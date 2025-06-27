@@ -16,7 +16,8 @@ CMakeCache.txt
 *.sublime-project
 
 # Misc
-*.DS_Store
+Thumbs.db
+.DS_Store
 
 compile_commands.json
 .cache/
