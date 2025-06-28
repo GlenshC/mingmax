@@ -10,6 +10,7 @@ layout(location = 5) in uint i_tex_uv_indexes;
 layout(location = 6) in uint i_flags;
 
 uniform mat4 u_projection;
+uniform mat4 u_model;
 
 uniform vec4 u_atlas_info[16]; // per texture: (atlas_w, atlas_h, tile_w, tile_h)
 
@@ -17,7 +18,6 @@ out vec2 v_uv;
 flat out float v_tex_index;
 
 void main() {
-    vec2 tex_uv_bits = unpackHalf2x16(i_tex_uv_indexes);
 
     uint i_uv_index = (i_tex_uv_indexes & 0xffffu); 
     uint i_texture_id = ((i_tex_uv_indexes >> 16) & 0xffffu);
@@ -56,5 +56,5 @@ void main() {
     vec2 rotated = mat2(c, -s, s, c) * scaled;
     vec2 world_pos = rotated + i_position;
 
-    gl_Position = u_projection * vec4(world_pos, 0.0, 1.0);
+    gl_Position = u_projection * u_model *vec4(world_pos, 0.0, 1.0);
 }

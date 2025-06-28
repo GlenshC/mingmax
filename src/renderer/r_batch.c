@@ -31,11 +31,11 @@ static GLuint vao_anim, vbo_anim_instance[5];
 // create
 Sprite_A renderer2D_create_anim(void)
 {
-    Sprite_A index = r_buffer_sprite_a.count++; 
+    Sprite_A index = (Sprite_A)r_buffer_sprite_a.count++; 
     Sprite_A handle = index;
 
     if (r_buffer_sprite_a.free_count > 0)
-        handle = r_buffer_sprite_a.free_handles[--(r_buffer_sprite_s.free_count)];
+        handle = r_buffer_sprite_a.free_handles[--(r_buffer_sprite_a.free_count)];
 
     r_buffer_sprite_a.handle_to_index[handle] = index;
     r_buffer_sprite_a.index_to_handle[index] = handle;
@@ -53,6 +53,7 @@ Sprite_S renderer2D_create_static(void)
     r_buffer_sprite_s.handle_to_index[handle] = index;
     r_buffer_sprite_s.index_to_handle[index] = handle;
     return handle;
+    // return 1;
 }
 
 // remove
@@ -85,6 +86,7 @@ void renderer2D_remove_anim(const Sprite_A handle)
 
 void renderer2D_remove_static(const Sprite_S handle)
 {
+    // (void)handle;
     int index = r_buffer_sprite_s.handle_to_index[handle];
     int last_index = --r_buffer_sprite_s.count;
 
@@ -140,6 +142,7 @@ void renderer2D_update_all_anim(void)
 // update instance (single flush)
 void renderer2D_push_static(const Sprite_S handle)
 {
+    // (void)handle;
     int index = r_buffer_sprite_s.handle_to_index[handle];
 
     glBindBuffer(GL_ARRAY_BUFFER, vbo_instance[VBO_POSITION]);
@@ -305,7 +308,7 @@ void renderer2D_batch_init_anim(void)
 
     // i_position
     glBindBuffer(GL_ARRAY_BUFFER, vbo_anim_instance[VBO_POSITION]);
-    glBufferData(GL_ARRAY_BUFFER, MAX_SPRITES * sizeof(vec2_f), NULL, GL_DYNAMIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, MAX_SPRITES_A * sizeof(vec2_f), NULL, GL_DYNAMIC_DRAW);
 
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(vec2_f), (void *)(0));
     glEnableVertexAttribArray(2);
@@ -313,7 +316,7 @@ void renderer2D_batch_init_anim(void)
 
     // i_scale
     glBindBuffer(GL_ARRAY_BUFFER, vbo_anim_instance[VBO_SCALE]);
-    glBufferData(GL_ARRAY_BUFFER, MAX_SPRITES * sizeof(vec2_f), NULL, GL_DYNAMIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, MAX_SPRITES_A * sizeof(vec2_f), NULL, GL_DYNAMIC_DRAW);
 
     glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, sizeof(vec2_f), (void *)(0));
     glEnableVertexAttribArray(3);
@@ -321,7 +324,7 @@ void renderer2D_batch_init_anim(void)
 
     // i_rotation
     glBindBuffer(GL_ARRAY_BUFFER, vbo_anim_instance[VBO_ROTATION]);
-    glBufferData(GL_ARRAY_BUFFER, MAX_SPRITES * sizeof(float), NULL, GL_DYNAMIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, MAX_SPRITES_A * sizeof(float), NULL, GL_DYNAMIC_DRAW);
 
     glVertexAttribPointer(4, 1, GL_FLOAT, GL_FALSE, sizeof(float), (void *)(0));
     glEnableVertexAttribArray(4);
@@ -330,7 +333,7 @@ void renderer2D_batch_init_anim(void)
     // i_uv_index
     // i_texture_id
     glBindBuffer(GL_ARRAY_BUFFER, vbo_anim_instance[VBO_UV_TEX]);
-    glBufferData(GL_ARRAY_BUFFER, MAX_SPRITES * sizeof(SpriteIndexes), NULL, GL_DYNAMIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, MAX_SPRITES_A * sizeof(SpriteIndexes), NULL, GL_DYNAMIC_DRAW);
 
     glVertexAttribIPointer(5, 1, GL_UNSIGNED_INT, sizeof(SpriteIndexes), (void *)(0));
     glEnableVertexAttribArray(5);
@@ -338,7 +341,7 @@ void renderer2D_batch_init_anim(void)
     
     // bit_field
     glBindBuffer(GL_ARRAY_BUFFER, vbo_anim_instance[VBO_BIT_FIELD]);
-    glBufferData(GL_ARRAY_BUFFER, MAX_SPRITES * sizeof(SpriteDataBits), NULL, GL_DYNAMIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, MAX_SPRITES_A * sizeof(SpriteDataBits), NULL, GL_DYNAMIC_DRAW);
 
     glVertexAttribIPointer(6, 1, GL_UNSIGNED_INT, sizeof(SpriteDataBits), (void *)(0));
     glEnableVertexAttribArray(6);
@@ -375,7 +378,7 @@ void renderer2D_batch_init_static(void)
 
     // i_position
     glBindBuffer(GL_ARRAY_BUFFER, vbo_instance[VBO_POSITION]);
-    glBufferData(GL_ARRAY_BUFFER, MAX_SPRITES * sizeof(vec2_f), NULL, GL_DYNAMIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, MAX_SPRITES_S * sizeof(vec2_f), NULL, GL_DYNAMIC_DRAW);
     
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(vec2_f), (void *)(0));
     glEnableVertexAttribArray(2);
@@ -383,7 +386,7 @@ void renderer2D_batch_init_static(void)
 
     // i_scale
     glBindBuffer(GL_ARRAY_BUFFER, vbo_instance[VBO_SCALE]);
-    glBufferData(GL_ARRAY_BUFFER, MAX_SPRITES * sizeof(vec2_f), NULL, GL_DYNAMIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, MAX_SPRITES_S * sizeof(vec2_f), NULL, GL_DYNAMIC_DRAW);
 
     glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, sizeof(vec2_f), (void *)(0));
     glEnableVertexAttribArray(3);
@@ -391,7 +394,7 @@ void renderer2D_batch_init_static(void)
 
     // i_rotation
     glBindBuffer(GL_ARRAY_BUFFER, vbo_instance[VBO_ROTATION]);
-    glBufferData(GL_ARRAY_BUFFER, MAX_SPRITES * sizeof(float), NULL, GL_DYNAMIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, MAX_SPRITES_S * sizeof(float), NULL, GL_DYNAMIC_DRAW);
 
     glVertexAttribPointer(4, 1, GL_FLOAT, GL_FALSE, sizeof(float), (void *)(0));
     glEnableVertexAttribArray(4);
@@ -400,7 +403,7 @@ void renderer2D_batch_init_static(void)
     // i_uv_index
     // i_texture_id
     glBindBuffer(GL_ARRAY_BUFFER, vbo_instance[VBO_UV_TEX]);
-    glBufferData(GL_ARRAY_BUFFER, MAX_SPRITES * sizeof(SpriteIndexes), NULL, GL_DYNAMIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, MAX_SPRITES_S * sizeof(SpriteIndexes), NULL, GL_DYNAMIC_DRAW);
 
     glVertexAttribIPointer(5, 1, GL_UNSIGNED_INT, sizeof(SpriteIndexes), (void *)(0));
     glEnableVertexAttribArray(5);
@@ -408,7 +411,7 @@ void renderer2D_batch_init_static(void)
     
     // bit_field
     glBindBuffer(GL_ARRAY_BUFFER, vbo_instance[VBO_BIT_FIELD]);
-    glBufferData(GL_ARRAY_BUFFER, MAX_SPRITES * sizeof(SpriteDataBits), NULL, GL_DYNAMIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, MAX_SPRITES_S * sizeof(SpriteDataBits), NULL, GL_DYNAMIC_DRAW);
 
     glVertexAttribIPointer(6, 1, GL_UNSIGNED_INT, sizeof(SpriteDataBits), (void *)(0));
     glEnableVertexAttribArray(6);

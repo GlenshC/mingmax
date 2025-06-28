@@ -1,7 +1,10 @@
 # MINGMAX game engine 
 
 Mingmax is the name of my cat.
+
 ![Mingmax the cat](docs/mingmax1x1.jpg)
+
+i think ill rename this later.
 
 ## philosophy 
 

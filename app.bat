@@ -7,6 +7,8 @@ if exist build\testapp.exe (
     ) else (
         if exist build\Release\testapp.exe (
             call build\Release\testapp.exe
+        ) else (
+            @echo No build executable found.
         )
     )
 )

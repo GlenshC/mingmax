@@ -2,7 +2,8 @@
 #include <stdint.h>
 
 #define RENDERER_MANUAL_FLUSH_UPDATE
-#define MAX_SPRITES 1000
+#define MAX_SPRITES_A 100
+#define MAX_SPRITES_S 100
 
 #define VBO_POSITION    0
 #define VBO_SCALE       1
@@ -29,35 +30,43 @@ typedef struct vec2_f {
     float y;
 } vec2_f;
 
-typedef struct SpriteData{
-    vec2_f          position[MAX_SPRITES];
-    vec2_f          scale[MAX_SPRITES];
-    float           rotation[MAX_SPRITES]; // 16
-    SpriteIndexes   uv_tex_indexes[MAX_SPRITES]; // 20
-    SpriteDataBits  bit_field[MAX_SPRITES]; // 20 
-} SpriteData;
+typedef struct SpriteData_S{
+    vec2_f          position[MAX_SPRITES_S];
+    vec2_f          scale[MAX_SPRITES_S];
+    float           rotation[MAX_SPRITES_S]; // 16
+    SpriteIndexes   uv_tex_indexes[MAX_SPRITES_S]; // 20
+    SpriteDataBits  bit_field[MAX_SPRITES_S]; // 20 
+} SpriteData_S;
 
 typedef struct SpriteBuffer_S {
-    SpriteData instances;
-    Sprite_S index_to_handle[MAX_SPRITES];
-    uint16_t handle_to_index[MAX_SPRITES];
-    Sprite_S free_handles[MAX_SPRITES];
+    SpriteData_S instances;
+    Sprite_S index_to_handle[MAX_SPRITES_S];
+    uint16_t handle_to_index[MAX_SPRITES_S];
+    Sprite_S free_handles[MAX_SPRITES_S];
     int free_count;
     int count;
 } SpriteBuffer_S;
 
+typedef struct SpriteData_A{
+    vec2_f          position[MAX_SPRITES_A];
+    vec2_f          scale[MAX_SPRITES_A];
+    float           rotation[MAX_SPRITES_A]; // 16
+    SpriteIndexes   uv_tex_indexes[MAX_SPRITES_A]; // 20
+    SpriteDataBits  bit_field[MAX_SPRITES_A]; // 20 
+} SpriteData_A;
+
 typedef struct SpriteBuffer_A {
-    SpriteData instances;
-    Sprite_A index_to_handle[MAX_SPRITES];
-    uint16_t handle_to_index[MAX_SPRITES];
-    uint16_t uv_index[MAX_SPRITES];
-    uint16_t uv_max_offset[MAX_SPRITES];
-    Sprite_A free_handles[MAX_SPRITES];
-    uint16_t tick_rate[MAX_SPRITES];
-    uint16_t last_tick[MAX_SPRITES];
-    uint16_t free_count;
-    uint16_t count;
-    // float frame_timer[MAX_SPRITES];
+    SpriteData_A instances;
+    Sprite_A index_to_handle[MAX_SPRITES_A];
+    uint16_t handle_to_index[MAX_SPRITES_A];
+    uint16_t uv_index[MAX_SPRITES_A];
+    uint16_t uv_max_offset[MAX_SPRITES_A];
+    Sprite_A free_handles[MAX_SPRITES_A];
+    uint16_t tick_rate[MAX_SPRITES_A];
+    uint16_t last_tick[MAX_SPRITES_A];
+    int free_count;
+    int count;
+    // float frame_timer[MAX_SPRITES_A];
     // uint8_t 
     // uint8_t 
 } SpriteBuffer_A;

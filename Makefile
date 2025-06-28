@@ -5,7 +5,7 @@ debug:
 	cmake --build build
 
 clang: 
-	cmake -G "MinGW Makefiles" -Bbuild -DCMAKE_C_COMPILER=clang -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_BUILD_TYPE=Release
+	cmake -G "MinGW Makefiles" -Bbuild -DCMAKE_C_COMPILER=clang DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_BUILD_TYPE=Release
 	cmake --build build --config Release
 
 gcc:
